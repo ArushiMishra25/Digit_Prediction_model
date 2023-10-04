@@ -1,0 +1,80 @@
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+%matplotlib inline
+
+from sklearn.datasets import load_digits
+
+model=load_digits()
+
+model
+
+dir(model)  #dir method gives u list of attributes and methods that function contains#
+
+#how to get a row in a dataframe
+#iloc() method is used object_name.iloc[row no.]
+#iloc() can also be used to retrive any column 
+#eg- object_name.iloc[:,3], this will reterive column no. 3 data ,:all row entries of column 3
+#we can access multiple row too eg- df.iloc[:,[3,4]].
+#see the use of drop method too.
+
+model.data[0]  #data column zero row-confirm this -this is the info of first image of the data frame .this is mathematical info
+#basically these numbers are the strngth of pixels of first image stored at 0th index row
+
+plt.gray() #to set colormap to gray
+plt.matshow(model.images[0]) #this will show the image from image column 0 th index row.this is graphical representation.
+
+#to print first five sample
+for i in range(5):
+    
+    
+    plt.matshow(model.images[i])
+
+model.target[0]
+
+model.target[1]
+
+model.target_names[0]
+
+model.target[0:5]
+
+#training our model
+
+from sklearn.model_selection import train_test_split
+
+X_train,X_test,Y_train,Y_test=train_test_split(model.data,model.target,test_size=0.2)
+
+# here u have to decide that by data u have to predict or by image u have to predict...as so far by image data its not 
+#possible because you have to give it some how ..so for now using mathematical data(pixel strength) to train our model
+
+len(X_test)
+
+len(X_train)
+
+from sklearn.linear_model import LogisticRegression
+df=LogisticRegression(max_iter=10000)
+
+df.fit(X_train,Y_train)
+
+df.score(X_test,Y_test)
+
+plt.matshow(model.images[89])  #picking any random data for prediction
+
+#lets take a sample which u can predict what that digit is and then see what machine is guessing
+plt.matshow(model.images[25])  #approx 5 i guess!!
+
+model.target[25]
+
+#lets see what our model guess
+
+df.predict(model.images[25])   #this is giving error because our model does not work on image so lets supply it mathematical data
+
+df.predict(model.data[[25]])  ##but why we have to supply multideminsional array
+#because we know X is multidimensional for sake of proper size of matrix ...present in notes
+
+df.predict(model.data[0:5])  #but why here not multi dimensional matrix is required doubt?
+
+#to properly visualize the accuracy where the machine is doing good or bad
+#the answer is  CONFUSION MATRIX
+
